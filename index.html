@@ -21,6 +21,30 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="intro" id="intro" aria-hidden="true">
+  <video id="introVid" muted playsinline autoplay preload="auto" poster="intro-poster.jpg"><source src="intro.mp4" type="video/mp4"></video>
+  <button class="intro-skip" id="introSkip" type="button">Enter</button>
+</div>
+<script>
+(function () {
+  var el = document.getElementById("intro"); if (!el) return;
+  var seen = null; try { seen = sessionStorage.getItem("cts_intro"); } catch (e) {}
+  if (seen || /[?&]manage=/.test(location.search)) { el.parentNode.removeChild(el); return; }
+  try { sessionStorage.setItem("cts_intro", "1"); } catch (e) {}
+  var lang = "en"; try { lang = localStorage.getItem("cts_lang") || "en"; } catch (e) {}
+  var label = { en: "Enter", es: "Entrar", fr: "Entrer" }[lang] || "Enter";
+  var btn = document.getElementById("introSkip"), v = document.getElementById("introVid"), closed = false;
+  btn.textContent = label;
+  document.documentElement.style.overflow = "hidden";
+  function done() { if (closed) return; closed = true; el.classList.add("out"); document.documentElement.style.overflow = ""; setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 700); }
+  btn.addEventListener("click", done);
+  v.addEventListener("ended", done);
+  v.addEventListener("error", function () { setTimeout(done, 1200); });
+  setTimeout(done, 11000);
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) { v.removeAttribute("autoplay"); v.pause(); setTimeout(done, 1800); return; }
+  var p = v.play(); if (p && p.catch) p.catch(function () { setTimeout(done, 1800); });
+})();
+</script>
 <div class="utility"><div class="wrap" id="util"></div></div>
 <header class="topbar">
   <div class="wrap">

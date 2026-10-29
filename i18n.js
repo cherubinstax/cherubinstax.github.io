@@ -323,3 +323,45 @@ window.I18N.en.closed_day = "Closed"; window.I18N.es.closed_day = "Cerrado"; win
 Object.assign(window.I18N.en, { pay_before: "The consultation must be paid before it takes place. Pay $30 securely with Cash App.", pay_ref_note: "Write your confirmation number in the Cash App note so we can match your payment." });
 Object.assign(window.I18N.es, { pay_before: "La consulta se paga antes de realizarse. Paga $30 de forma segura con Cash App.", pay_ref_note: "Escribe tu número de confirmación en la nota de Cash App para identificar tu pago." });
 Object.assign(window.I18N.fr, { pay_before: "La consultation se paie avant d'avoir lieu. Payez 30 $ en toute sécurité avec Cash App.", pay_ref_note: "Indiquez votre numéro de confirmation dans la note Cash App pour que nous puissions identifier votre paiement." });
+
+// Payment methods: Cash App + Zelle
+Object.assign(window.I18N.en, {
+  consult_terms: "The $30 consultation is paid in advance with Cash App or Zelle. It is separate from tax preparation.",
+  pay_step1: "Send $30 with Cash App ($Eyenamik1) or Zelle (267-361-5500).",
+  pay_step2: "In the payment note or memo, write your confirmation number.",
+  pay_manual: "Payments are verified manually by our team. Opening a payment link does not mark the payment as received.",
+  pay_sent_note: "Name on your Cash App or Zelle account (optional)",
+  how3_d: "Tax preparation is paid after your taxes are prepared. Consultations are $30 through Cash App or Zelle.",
+  pay_before: "The consultation must be paid before it takes place. Choose Cash App or Zelle to pay $30.",
+  pay_ref_note: "Write your confirmation number in the payment note so we can match your payment.",
+  pay_methods: "Payment methods", zelle_send: "Send $30 to this number from your bank's Zelle app.", copy_number: "Copy number",
+  zelle_btn: "Pay $30 with Zelle"
+});
+window.I18N.en.terms_body[2] = "The Tax Consultation costs $30 USD and is paid with Cash App or Zelle. A consultation that is already paid is not charged again if you change the date or time.";
+Object.assign(window.I18N.es, {
+  consult_terms: "La consulta de $30 se paga por adelantado con Cash App o Zelle. Es independiente de la preparación de impuestos.",
+  pay_step1: "Envía $30 por Cash App ($Eyenamik1) o por Zelle (267-361-5500).",
+  pay_step2: "En la nota o memo del pago, escribe tu número de confirmación.",
+  pay_manual: "Los pagos son verificados manualmente por nuestro equipo. Abrir un enlace de pago no marca el pago como recibido.",
+  pay_sent_note: "Nombre de tu cuenta de Cash App o Zelle (opcional)",
+  how3_d: "La preparación de impuestos se paga después de prepararlos. Las consultas cuestan $30 por Cash App o Zelle.",
+  pay_before: "La consulta se paga antes de realizarse. Elige Cash App o Zelle para pagar $30.",
+  pay_ref_note: "Escribe tu número de confirmación en la nota del pago para identificarlo.",
+  pay_methods: "Métodos de pago", zelle_send: "Envía $30 a este número desde la app de Zelle de tu banco.", copy_number: "Copiar número",
+  zelle_btn: "Pagar $30 con Zelle"
+});
+window.I18N.es.terms_body[2] = "La consulta de impuestos cuesta $30 USD y se paga por Cash App o Zelle. Una consulta ya pagada no se cobra de nuevo si cambias la fecha u hora.";
+Object.assign(window.I18N.fr, {
+  consult_terms: "La consultation de 30 $ se paie à l'avance avec Cash App ou Zelle. Elle est distincte de la préparation des déclarations.",
+  pay_step1: "Envoyez 30 $ avec Cash App ($Eyenamik1) ou Zelle (267-361-5500).",
+  pay_step2: "Dans la note ou le mémo du paiement, indiquez votre numéro de confirmation.",
+  pay_manual: "Les paiements sont vérifiés manuellement par notre équipe. Ouvrir un lien de paiement ne marque pas le paiement comme reçu.",
+  pay_sent_note: "Nom de votre compte Cash App ou Zelle (facultatif)",
+  how3_d: "La préparation se paie après la préparation de vos déclarations. Les consultations coûtent 30 $ via Cash App ou Zelle.",
+  pay_before: "La consultation se paie avant d'avoir lieu. Choisissez Cash App ou Zelle pour payer 30 $.",
+  pay_ref_note: "Indiquez votre numéro de confirmation dans la note du paiement afin que nous puissions l'identifier.",
+  pay_methods: "Moyens de paiement", zelle_send: "Envoyez 30 $ à ce numéro depuis l'application Zelle de votre banque.", copy_number: "Copier le numéro",
+  zelle_btn: "Payer 30 $ avec Zelle"
+});
+window.I18N.fr.terms_body[2] = "La consultation fiscale coûte 30 $ US et se paie via Cash App ou Zelle. Une consultation déjà payée n'est pas facturée de nouveau si vous changez la date ou l'heure.";
+window.I18N.en.intro_skip = "Enter"; window.I18N.es.intro_skip = "Entrar"; window.I18N.fr.intro_skip = "Entrer";

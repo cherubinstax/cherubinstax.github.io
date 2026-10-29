@@ -75,9 +75,19 @@
   function cashUrl() { return (S.settings || {}).cashapp_url || "https://cash.app/$Eyenamik1"; }
   function cashTag() { const m = cashUrl().match(/\$[A-Za-z0-9_-]+/); return m ? m[0] : ""; }
   function cashBtn() { return `<a class="btn btn-cash" href="${esc(cashUrl())}" target="_blank" rel="noopener"><span class="cash-ic">${I.cash}</span><span>${t("pay_btn")}</span></a>`; }
-  function cashBox() {
+  function zelleNum() { return (S.settings || {}).zelle || "267-361-5500"; }
+  function cashOnly() {
     return `<div class="cash-box"><div class="cash-head"><span class="cash-mark">${I.cash}</span><div><b>Cash App</b><span>${esc(cashTag())}</span></div></div>
-      <p>${t("pay_before")}</p>${cashBtn()}<p class="small muted" style="margin:10px 0 0">${t("pay_ref_note")}</p></div>`;
+      <div style="margin-top:12px">${cashBtn()}</div></div>`;
+  }
+  function zelleBox() {
+    const z = zelleNum();
+    return `<div class="zelle-box"><div class="cash-head"><span class="zelle-mark">${I.building}</span><div><b>Zelle</b><span>${esc(z)}</span></div></div>
+      <p>${t("zelle_send")}</p><div class="zelle-row"><span class="zelle-num">${esc(z)}</span><button type="button" class="btn btn-zelle btn-sm" data-act="copy-zelle">${t("copy_number")}</button></div></div>`;
+  }
+  function payMethods() { return `<div class="pay-methods">${cashOnly()}${zelleBox()}</div>`; }
+  function cashBox() {
+    return `<div class="pay-wrap"><b class="pay-title">${t("pay_methods")}</b><p class="small" style="margin:4px 0 10px">${t("pay_before")}</p>${payMethods()}<p class="small muted" style="margin:10px 0 0">${t("pay_ref_note")}</p></div>`;
   }
   function modal(html) { $("#modalRoot").innerHTML = `<div class="modal-bg" data-close="1"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`; }
   function closeModal() { $("#modalRoot").innerHTML = ""; }
@@ -225,7 +235,7 @@
           <h4 style="margin:16px 0 6px;color:var(--navy)">${t("pay_steps_h")}</h4>
           <ol style="padding-left:20px;margin:0">${["pay_step1", "pay_step2", "pay_step3", "pay_step4"].map((k) => `<li>${esc(t(k))}</li>`).join("")}</ol>
           <div class="notice info small">${t("pay_manual")}</div>
-          <div class="btn-row">${cashBtn()}<a class="btn btn-ghost" href="#/manage">${I.edit}${t("btn_modify")}</a></div>
+          ${payMethods()}<div class="btn-row"><a class="btn btn-ghost" href="#/manage">${I.edit}${t("btn_modify")}</a></div>
         </div></div></div></div>`;
   }
   function viewContact() {
@@ -301,7 +311,7 @@
     const a = r.appt; const link = manageLink(a.token);
     const title = { booked: "booked_title", modified: "modified_title", cancelled: "cancelled_title" }[r.kind];
     const payBlock = a.status !== "cancelled" && a.payment_status === "pending"
-      ? `<div class="card" style="margin-top:16px"><h3>${t("pay_steps_h")}</h3><ol style="padding-left:20px">${["pay_step1", "pay_step2", "pay_step3", "pay_step4"].map((k) => `<li>${esc(t(k))}</li>`).join("")}</ol><div class="notice info small">${t("pay_manual")}</div><div class="btn-row">${cashBtn()}<button class="btn btn-ghost" data-act="open-manage" data-tok="${a.token}">${t("pay_sent_btn")}</button></div></div>`
+      ? `<div class="card" style="margin-top:16px"><h3>${t("pay_steps_h")}</h3><ol style="padding-left:20px">${["pay_step1", "pay_step2", "pay_step3", "pay_step4"].map((k) => `<li>${esc(t(k))}</li>`).join("")}</ol>${payMethods()}<div class="notice info small">${t("pay_manual")}</div><div class="btn-row"><button class="btn btn-ghost" data-act="open-manage" data-tok="${a.token}">${t("pay_sent_btn")}</button></div></div>`
       : a.payment_status === "paid" && r.kind === "modified" ? `<div class="notice ok">${t("paid_keep")}</div>` : "";
     return `<div class="wrap"><div class="page-title">${r.kind !== "cancelled" ? `<div class="success-mark">${I.check}</div>` : ""}<h1>${t(title)}</h1></div>
       <div class="card">${r.kind !== "cancelled" ? `<div class="notice ok">${I.check.replace("<svg", '<svg width="16" height="16" style="vertical-align:-3px;margin-right:6px"')}${t("email_sent")}</div>` : ""}
@@ -358,7 +368,7 @@
     return `<div class="card"><h3>${t("pay_steps_h")}</h3>${badge("ps", "pending")}
       <ol style="padding-left:20px">${["pay_step1", "pay_step2", "pay_step3", "pay_step4"].map((k) => `<li>${esc(t(k))}</li>`).join("")}</ol>
       <p class="small">${t("conf_number")}: <span class="code" style="font-size:1rem">${esc(a.code)}</span></p>
-      <div class="btn-row" style="margin-top:8px">${cashBtn()}</div>
+      <div style="margin-top:8px">${payMethods()}</div>
       <label class="f" for="payNote">${t("pay_sent_note")}</label><input id="payNote" maxlength="80" value="${esc(m.payNote)}">
       <div class="btn-row"><button class="btn btn-ghost" data-act="m-paid" ${m.busy ? "disabled" : ""}>${I.check}${t("pay_sent_btn")}</button></div>
       <div class="notice info small">${t("pay_manual")}</div></div>`;
@@ -451,6 +461,7 @@
       case "m-paid": doPaid(); break;
       case "modal-close": closeModal(); break;
       case "open-manage": S.m = freshManage(); S.m.token = el.dataset.tok; go("#/manage"); findAppt(); break;
+      case "copy-zelle": { const z = zelleNum(); (navigator.clipboard ? navigator.clipboard.writeText(z) : Promise.reject()).catch(() => {}); el.textContent = t("copied"); break; }
       case "copy": { const i = $("#mLink"); i.select(); (navigator.clipboard ? navigator.clipboard.writeText(i.value) : Promise.reject()).catch(() => document.execCommand("copy")); el.textContent = t("copied"); break; }
     }
   });
@@ -484,7 +495,7 @@
   (async function boot() {
     document.documentElement.lang = S.lang; chrome(); render();
     try {
-      const [st, offs, svcs, sch] = await Promise.all([rest("settings?id=eq.1&select=daily_limit,booking_open,auto_confirm,allow_office_change,booking_window_days,phone,email,whatsapp,cashapp_url"), rest("offices?select=*&order=sort"), rest("services?select=*&order=sort"), rest("schedules?select=office_id,weekday,open_time,close_time").catch(() => [])]);
+      const [st, offs, svcs, sch] = await Promise.all([rest("settings?id=eq.1&select=daily_limit,booking_open,auto_confirm,allow_office_change,booking_window_days,phone,email,whatsapp,cashapp_url,zelle"), rest("offices?select=*&order=sort"), rest("services?select=*&order=sort"), rest("schedules?select=office_id,weekday,open_time,close_time").catch(() => [])]);
       S.settings = st[0]; S.offices = offs; S.services = svcs; S.schedules = sch || []; S.loaded = true; chrome();
     } catch (e) { S.loadErr = true; }
     const tok = new URLSearchParams(location.search).get("manage");

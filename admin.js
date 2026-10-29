@@ -69,7 +69,7 @@
     block_affects: ["This block affects {n} confirmed appointment(s). They will remain, but you should reschedule them.", "Este bloqueo afecta {n} cita(s) confirmada(s). Seguirán activas, pero deberías reprogramarlas.", "Ce blocage touche {n} rendez-vous confirmé(s). Ils restent actifs mais doivent être reportés."],
     check_day: ["Check free and booked times", "Consultar horas libres y ocupadas", "Vérifier heures libres et réservées"], booked: ["Booked", "Ocupadas", "Réservées"],
     // payments
-    pay_intro: ["Cash App does not offer automatic confirmation for personal payment links. Check your Cash App activity, find the confirmation number in the note, then confirm here.", "Cash App no ofrece confirmación automática para enlaces de pago personales. Revisa tu actividad en Cash App, busca el número de confirmación en la nota y confírmalo aquí.", "Cash App n'offre pas de confirmation automatique pour les liens personnels. Vérifiez votre activité Cash App, trouvez le numéro de confirmation dans la note, puis confirmez ici."],
+    pay_intro: ["Cash App and Zelle do not send automatic confirmations to this site. Check your Cash App and Zelle (bank) activity, find the confirmation number in the note or memo, then confirm the payment here.", "Cash App y Zelle no envían confirmaciones automáticas a esta página. Revisa tu actividad de Cash App y de Zelle (en tu banco), busca el número de confirmación en la nota o memo y confirma el pago aquí.", "Cash App et Zelle n'envoient pas de confirmation automatique à ce site. Vérifiez votre activité Cash App et Zelle (banque), trouvez le numéro de confirmation dans la note ou le mémo, puis confirmez le paiement ici."],
     show_paid: ["Show paid", "Mostrar pagadas", "Afficher payées"], amount: ["Amount", "Monto", "Montant"],
     // settings
     general: ["Booking rules", "Reglas de reservas", "Règles de réservation"], daily_limit: ["Daily client limit (both offices combined)", "Límite diario de clientes (ambas oficinas)", "Limite quotidienne (deux bureaux combinés)"],
@@ -79,7 +79,7 @@
     window: ["How many days ahead clients can book", "Con cuántos días de anticipación se puede reservar", "Nombre de jours de réservation à l'avance"],
     notice: ["Minimum notice before an appointment (hours)", "Aviso mínimo antes de una cita (horas)", "Préavis minimum (heures)"],
     contact: ["Contact & payments", "Contacto y pagos", "Contact et paiements"], whatsapp: ["WhatsApp number (digits with country code)", "Número de WhatsApp (con código de país)", "Numéro WhatsApp (avec indicatif)"],
-    cashapp: ["Cash App link", "Enlace de Cash App", "Lien Cash App"], site_url: ["Public site address (used in emails)", "Dirección pública del sitio (para los correos)", "Adresse publique du site (pour les courriels)"],
+    cashapp: ["Cash App link", "Enlace de Cash App", "Lien Cash App"], zelle: ["Zelle number", "Número de Zelle", "Numéro Zelle"], site_url: ["Public site address (used in emails)", "Dirección pública del sitio (para los correos)", "Adresse publique du site (pour les courriels)"],
     notify_admin: ["Send me a copy of each notification", "Enviarme copia de cada notificación", "M'envoyer une copie de chaque notification"],
     services: ["Services & prices", "Servicios y precios", "Services et prix"], price: ["Price (USD, empty = shown as provided at office)", "Precio (USD, vacío = se indica en la oficina)", "Prix (USD, vide = indiqué au bureau)"],
     name_l: ["Name", "Nombre", "Nom"], desc_l: ["Description", "Descripción", "Description"], svc_active: ["Active", "Activo", "Actif"],
@@ -400,7 +400,7 @@
         <label class="f">${t("notice")}</label><input id="sNotice" type="number" min="0" max="168" value="${s.min_notice_hours}"></div>
       <div class="card" style="margin-top:16px"><h3>${t("contact")}</h3>
         <label class="f">${t("phone")}</label><input id="sPhone" value="${esc(s.phone)}"><label class="f">${t("email")}</label><input id="sEmail" type="email" value="${esc(s.email)}">
-        <label class="f">${t("whatsapp")}</label><input id="sWa" value="${esc(s.whatsapp)}" inputmode="numeric"><label class="f">${t("cashapp")}</label><input id="sCash" value="${esc(s.cashapp_url)}">
+        <label class="f">${t("whatsapp")}</label><input id="sWa" value="${esc(s.whatsapp)}" inputmode="numeric"><label class="f">${t("cashapp")}</label><input id="sCash" value="${esc(s.cashapp_url)}"><label class="f">${t("zelle")}</label><input id="sZelle" value="${esc(s.zelle || "")}" inputmode="tel">
         <label class="f">${t("site_url")}</label><input id="sSite" value="${esc(s.site_url || location.origin)}">
         ${chk("sNotify", "notify_admin", t("notify_admin"))}</div>
       <div class="btn-row"><button class="btn btn-gold" data-act="set-save">${t("save")}</button></div>
@@ -412,7 +412,7 @@
   async function saveSettings() {
     const n = (id, d) => { const v = parseInt($(id).value); return isNaN(v) ? d : v; };
     const upd = { booking_open: $("#sOpen").checked, auto_confirm: $("#sAuto").checked, allow_office_change: $("#sOff").checked, daily_limit: n("#sLimit", 10), booking_window_days: n("#sWin", 60), min_notice_hours: n("#sNotice", 2),
-      phone: $("#sPhone").value.trim(), email: $("#sEmail").value.trim(), whatsapp: $("#sWa").value.replace(/\D/g, ""), cashapp_url: $("#sCash").value.trim(), site_url: $("#sSite").value.trim() || null, notify_admin: $("#sNotify").checked, updated_at: new Date().toISOString() };
+      phone: $("#sPhone").value.trim(), email: $("#sEmail").value.trim(), whatsapp: $("#sWa").value.replace(/\D/g, ""), cashapp_url: $("#sCash").value.trim(), zelle: $("#sZelle").value.trim() || null, site_url: $("#sSite").value.trim() || null, notify_admin: $("#sNotify").checked, updated_at: new Date().toISOString() };
     if (!/^https:\/\//.test(upd.cashapp_url)) return toast(t("cashapp") + "?");
     const { error } = await sb.from("settings").update(upd).eq("id", 1); if (error) return toast(errT(error));
     await loadBase(); toast(t("saved")); render();

@@ -317,4 +317,27 @@ footer .legal a{display:inline;margin:0 0 0 16px}
 .cash-mark{width:40px;height:40px;border-radius:50%;background:#00c244;color:#fff;display:grid;place-items:center;flex:none}
 .cash-mark svg{width:22px;height:22px}
 .cash-head b{display:block;color:#0b5d2a;font-size:1rem;line-height:1.1}
-.cash-head span{font-size:.85rem;color:#2c7a52;font-weight:600}
+.cash-head div span{display:block;font-size:.85rem;color:#2c7a52;font-weight:600}
+/* payment methods */
+.pay-wrap{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+.pay-title{color:var(--navy);font-size:.95rem}
+.pay-methods{display:grid;gap:12px}
+.pay-methods .cash-box{margin-top:0}
+.zelle-box{border:1px solid #dccbf5;background:#f7f2fe;border-radius:12px;padding:16px}
+.zelle-box p{margin:10px 0 12px;font-size:.92rem;color:var(--ink)}
+.zelle-mark{width:40px;height:40px;border-radius:50%;background:#6d1ed4;color:#fff;display:grid;place-items:center;flex:none}
+.zelle-mark svg{width:20px;height:20px}
+.zelle-box .cash-head b{color:#4b1495}
+.zelle-box .cash-head div span{color:#6d1ed4}
+.zelle-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.zelle-num{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:1.15rem;font-weight:700;color:#4b1495;background:#fff;border:1px dashed #b58ae8;border-radius:8px;padding:8px 12px;letter-spacing:.04em}
+.btn-zelle{background:#6d1ed4;color:#fff}
+.btn-zelle:hover{background:#5a17b0}
+
+/* welcome intro */
+.intro{position:fixed;inset:0;z-index:100;background:#f8f4eb;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:opacity .6s ease}
+.intro.out{opacity:0;pointer-events:none}
+.intro video{width:100%;height:100%;object-fit:contain;background:#f8f4eb}
+@media (max-aspect-ratio:1/1){.intro video{width:175vw;height:auto;max-width:none;object-fit:cover}}
+.intro-skip{position:absolute;bottom:max(28px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;border:0;border-radius:999px;padding:12px 30px;font:600 .95rem "Inter",sans-serif;letter-spacing:.06em;cursor:pointer;box-shadow:0 10px 30px -10px rgba(16,48,72,.5)}
+.intro-skip:hover{background:var(--navy-2)}
