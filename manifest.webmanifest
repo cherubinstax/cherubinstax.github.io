@@ -1,0 +1,12 @@
+{
+  "name": "CHERUBIN'S Tax Services",
+  "short_name": "CHERUBIN'S",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf7f1",
+  "theme_color": "#103048",
+  "icons": [
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

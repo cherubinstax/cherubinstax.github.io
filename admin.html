@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin — CHERUBIN'S Tax Services</title>
+<meta name="theme-color" content="#0b2a3c">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .admin-tabs{display:flex;gap:4px;overflow-x:auto;background:#fff;border-bottom:1px solid var(--line);padding:0 16px;position:sticky;top:77px;z-index:10}
+  .admin-tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:14px 12px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
+  .admin-tabs button.on{color:var(--petrol);border-color:var(--petrol)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
+  .stat .v{font-size:1.9rem;font-weight:800;color:var(--navy);line-height:1.1}
+  .stat .k{color:var(--muted);font-size:.85rem}
+  .stat.hl{border-color:var(--gold);background:var(--gold-50)}
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+  table.tbl{width:100%;border-collapse:collapse;font-size:.9rem;min-width:760px}
+  .tbl th{text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);background:#fafbfc}
+  .tbl td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+  .tbl tr:last-child td{border-bottom:0}
+  .tbl tr.click{cursor:pointer}.tbl tr.click:hover td{background:#f7fafb}
+  .filters{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+  .filters label{font-size:.8rem;font-weight:600;color:var(--muted)}
+  .filters input,.filters select{padding:9px 10px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .wk{display:grid;grid-template-columns:120px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:start}
+  .wk .ranges{display:flex;flex-direction:column;gap:6px}
+  .rng{display:flex;gap:6px;align-items:center}
+  .rng input{width:auto;padding:7px}
+  .mcal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .mcal .c{background:#fff;border:1px solid var(--line);border-radius:8px;min-height:78px;padding:6px;font-size:.8rem;cursor:pointer;text-align:left;font:inherit}
+  .mcal .c b{display:block;font-size:.85rem}
+  .mcal .c .n{font-size:1.1rem;font-weight:800;color:var(--navy)}
+  .mcal .c.full{border-color:var(--bad);background:var(--bad-50)}
+  .mcal .c.today{outline:2px solid var(--gold)}
+  .mcal .wd{font-size:.75rem;font-weight:700;color:var(--muted);text-align:center}
+  .hist{font-size:.85rem;border-left:2px solid var(--line);padding-left:12px;margin:0}
+  .hist li{margin-bottom:8px;list-style:none}
+  .chip{display:inline-block;padding:2px 8px;border-radius:6px;background:var(--petrol-50);color:var(--petrol);font-size:.8rem;font-weight:600}
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;z-index:60;box-shadow:var(--shadow)}
+  @media (max-width:600px){.wk{grid-template-columns:1fr}.mcal .c{min-height:56px;padding:4px}}
+</style>
+</head>
+<body>
+<div class="utility"><div class="wrap"><span class="tag gold" id="adminTag">Admin</span>
+  <label class="lang sp"><span id="langIcon"></span><span class="sr">Language / Idioma / Langue</span>
+    <select id="langSel" aria-label="Language / Idioma / Langue"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option></select></label>
+  <button class="btn btn-outline-light btn-sm" id="logoutBtn" hidden style="min-height:30px;padding:4px 12px"></button></div></div>
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img id="hdrLogo" src="logo.webp" alt="" width="50" height="50"><span class="wm" id="hdrWord"><b>CHERUBIN'S</b><span>TAX SERVICES</span></span></a>
+  </div>
+</header>
+<nav class="admin-tabs" id="tabs" hidden></nav>
+<main id="app"></main>
+<div id="modalRoot"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="icons.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
