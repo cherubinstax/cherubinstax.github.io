@@ -72,7 +72,13 @@
     if (a.service_id === "consult" || a.payment_status !== "not_required") rows.push([t("payment_status"), badge("ps", a.payment_status)]);
     return `<table class="sum">${rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("")}</table>`;
   }
-  function cashBtn() { return `<a class="btn btn-cash" href="${esc((S.settings || {}).cashapp_url || "https://cash.app/$Eyenamik1")}" target="_blank" rel="noopener">${I.cash}${t("pay_btn")}</a>`; }
+  function cashUrl() { return (S.settings || {}).cashapp_url || "https://cash.app/$Eyenamik1"; }
+  function cashTag() { const m = cashUrl().match(/\$[A-Za-z0-9_-]+/); return m ? m[0] : ""; }
+  function cashBtn() { return `<a class="btn btn-cash" href="${esc(cashUrl())}" target="_blank" rel="noopener"><span class="cash-ic">${I.cash}</span><span>${t("pay_btn")}</span></a>`; }
+  function cashBox() {
+    return `<div class="cash-box"><div class="cash-head"><span class="cash-mark">${I.cash}</span><div><b>Cash App</b><span>${esc(cashTag())}</span></div></div>
+      <p>${t("pay_before")}</p>${cashBtn()}<p class="small muted" style="margin:10px 0 0">${t("pay_ref_note")}</p></div>`;
+  }
   function modal(html) { $("#modalRoot").innerHTML = `<div class="modal-bg" data-close="1"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`; }
   function closeModal() { $("#modalRoot").innerHTML = ""; }
 
@@ -161,6 +167,7 @@
     return `<div class="card svc ${isPrep ? "" : "gold"}"><div class="top"><span class="ic">${isPrep ? I.calc : I.talk}</span><h3>${esc(svcName(s.id))}</h3></div>
       <p class="muted grow" style="margin:0 0 14px">${esc(s.description[S.lang] || s.description.en)}</p>${price}
       <div class="term">${I.shield}<span>${isPrep ? t("prep_terms") : t("consult_terms")}</span></div>
+      ${!isPrep ? cashBox() : ""}
       ${withBtn ? `<div class="btn-row"><a class="btn ${isPrep ? "btn-primary" : "btn-gold"}" href="#/book" data-act="book-svc" data-s="${s.id}">${I.cal}${t("book_this")}</a></div>` : ""}</div>`;
   }
   function band() {
@@ -266,7 +273,7 @@
       const svc = service(b.service);
       const terms = t("accept_terms", { terms: `<a href="#/terms" target="_blank">${t("terms_link")}</a>`, privacy: `<a href="#/privacy" target="_blank">${t("privacy_link")}</a>` });
       body = `<h2>${t("review_title")}</h2><div class="card">${summary(pseudo).replace(/<tr><td>[^<]*<\/td><td><span class="code">—<\/span><\/td><\/tr>/, "")}
-        <p class="small" style="margin-top:12px">${svc && svc.payment_timing === "after" ? t("prep_terms") : t("consult_terms")}</p></div>
+        <p class="small" style="margin-top:12px">${svc && svc.payment_timing === "after" ? t("prep_terms") : t("consult_terms")}</p>${svc && svc.requires_cashapp ? cashBox() : ""}</div>
         <label class="check"><input type="checkbox" id="fTerms" ${b.terms ? "checked" : ""}><span>${terms}</span></label>
         ${b.err ? `<div class="notice bad">${esc(b.err)}</div>` : ""}
         <div class="btn-row"><button class="btn btn-ghost" data-act="b-back" ${b.busy ? "disabled" : ""}>${I.left}${t("back")}</button>

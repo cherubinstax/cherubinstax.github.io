@@ -320,3 +320,6 @@ Object.assign(window.I18N.fr, {
   foot_offices: "Bureaux", foot_contact: "Contact", foot_links: "Liens utiles", today_l: "Aujourd'hui"
 });
 window.I18N.en.closed_day = "Closed"; window.I18N.es.closed_day = "Cerrado"; window.I18N.fr.closed_day = "Fermé";
+Object.assign(window.I18N.en, { pay_before: "The consultation must be paid before it takes place. Pay $30 securely with Cash App.", pay_ref_note: "Write your confirmation number in the Cash App note so we can match your payment." });
+Object.assign(window.I18N.es, { pay_before: "La consulta se paga antes de realizarse. Paga $30 de forma segura con Cash App.", pay_ref_note: "Escribe tu número de confirmación en la nota de Cash App para identificar tu pago." });
+Object.assign(window.I18N.fr, { pay_before: "La consultation se paie avant d'avoir lieu. Payez 30 $ en toute sécurité avec Cash App.", pay_ref_note: "Indiquez votre numéro de confirmation dans la note Cash App pour que nous puissions identifier votre paiement." });
